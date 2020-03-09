@@ -14,5 +14,13 @@ before { puts; puts "--------------- NEW REQUEST ---------------"; puts }       
 after { puts; }                                                                       #
 #######################################################################################
 
-events_table = DB.from(:events)
+trips_table = DB.from(:trips)
 rsvps_table = DB.from(:rsvps)
+users_table = DB.from(:users)
+
+get "/" do
+    puts trips_table.all
+    @trips = trips_table.all.to_a
+    view "trips"
+end
+
