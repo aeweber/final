@@ -14,8 +14,15 @@ before { puts; puts "--------------- NEW REQUEST ---------------"; puts }       
 after { puts; }                                                                       #
 #######################################################################################
 
+# Temas a considerar:
+# 1. Cada vez que un usuario haga log in, el homepage debe cambiar - Sacarle Jumbotron
+# 2. le puedo subir fotos a las database? - https://www.ruby-forum.com/t/how-to-insert-an-image-into-database-and-how-to-display-it/179186/3
+# 3. Hacer pagina "new_rsvp"
+# 4. Hacer pagina "create_rsvp"
+
+
 trips_table = DB.from(:trips)
-rsvps_table = DB.from(:rsvps)
+comments_table = DB.from(:comments)
 users_table = DB.from(:users)
 
 get "/" do
@@ -24,3 +31,14 @@ get "/" do
     view "trips"
 end
 
+get "/trips/:id" do
+    @trip = trips_table.where(id: params[:id]).to_a[0]
+    @comments = comments_table.where(trip_id: @trip[:id])
+    @like_count = comments_table.where(trip_id: @trip[:id], like: true).count
+    @users_table = users_table
+    view "trip"
+end
+
+get "/users/new" do
+    view "new_user"
+end

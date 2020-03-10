@@ -9,16 +9,21 @@ DB.create_table! :trips do
   primary_key :id
   String :title
   String :description, text: true
-  String :date
   String :location
 end
-DB.create_table! :rsvps do
+DB.create_table! :comments do
   primary_key :id
-  foreign_key :event_id
-  Boolean :going
+  foreign_key :trip_id
+  Boolean :like
   String :name
   String :email
-  String :comments, text: true
+  String :detail, text: true
+end
+DB.create_table! :users do
+  primary_key :id
+  String :name
+  String :email
+  String :password
 end
 
 # Insert initial (seed) data
@@ -26,10 +31,8 @@ trips_table = DB.from(:trips)
 
 trips_table.insert(title: "New Mexico Trip", 
                     description: "XXXX",
-                    date: "June 21",
                     location: "New Mexico")
 
 trips_table.insert(title: "Fly fhishing in Chilean Patagonia - Baker River", 
                     description: "YYYY",
-                    date: "December 6",
                     location: "Rio Baker, Aysen, Chile")
