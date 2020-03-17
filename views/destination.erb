@@ -20,16 +20,16 @@
                 <% end %>
                 <div class="media-body">
                     <h5 class="mt-0">
-                    <%= @users_table.where(id: comment[:user_id]).to_a[0][:name] %></h5>
+                        <%= @users_table.where(id: comment[:user_id]).to_a[0][:name] %>
 
-                     <small>
+                        <small>
                             <!-- only show these links if it's my comment -->
                             <% if @current_user && @current_user[:id] == comment[:user_id] %>
                                 (<a href="/comments/<%= comment[:id] %>/edit">edit</a> | <a href="/comments/<%= comment[:id] %>/destroy">delete</a>)
                             <% end %>
                         </small>
                     </h5>
-                    <%= comment[:comments] %>
+                    <%= comment[:details] %>
                 </div>
             </div>
         <% end %>

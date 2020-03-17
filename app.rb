@@ -16,14 +16,12 @@ after { puts; }                                                                 
 #######################################################################################
 
 # Temas a considerar:
-# 1. En pagina "destination" no estan apareciendo los comentarios (details)
 # 2. Cada vez que un usuario haga log in, el homepage debe cambiar - Sacarle Jumbotron # Cambiar redirect "/" en /logins/create 
 # 3. le puedo subir fotos a las database? - https://www.ruby-forum.com/t/how-to-insert-an-image-into-database-and-how-to-display-it/179186/3
 # 4. Pagina "/destinations/id" poner numero de likes y dislikes
 # 5. Se le podria poner otro formato a "country" y " region" en hoja "destination"
-# 6. Cambiar foto error.erb
-# 7. Al final chequear que todas las paginas de erb esten creadas
-
+# 7. Crear pagina (a) create_login, (b) create_comment, (d) destroy_comment, (e) logout, (f) update_comment
+# I got a fever - https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSpbdW8OHsXALx9oPDfYQVV3z_5deuXa9ngyIeSpRFnlCScmbdO
 
 
 destinations_table = DB.from(:destinations)
@@ -145,9 +143,13 @@ post "/users/create" do
             email: params["email"],
             password: BCrypt::Password.create(params["password"])
         )
-
-        redirect "/logins/new"
+        redirect "/users/create"
     end
+end
+
+# display the login form
+get "/users/create" do
+    view "create_user"
 end
 
 # display the login form
