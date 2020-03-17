@@ -1,10 +1,11 @@
 # Set up for the application and database. DO NOT CHANGE. #############################
-require "sinatra"                                                                     #
+require "sinatra"
+require "sinatra/cookies"                                                             #
 require "sinatra/reloader" if development?                                            #
 require "sequel"                                                                      #
 require "logger"                                                                      #
-require "twilio-ruby"                                                                 #
 require "bcrypt"                                                                      #
+require "twilio-ruby"                                                                 #
 connection_string = ENV['DATABASE_URL'] || "sqlite://#{Dir.pwd}/development.sqlite3"  #
 DB ||= Sequel.connect(connection_string)                                              #
 DB.loggers << Logger.new($stdout) unless DB.loggers.size > 0                          #
@@ -21,22 +22,22 @@ after { puts; }                                                                 
 # 4. Hacer pagina "create_rsvp"
 
 
-trips_table = DB.from(:trips)
+destinations_table = DB.from(:destinations)
 comments_table = DB.from(:comments)
 users_table = DB.from(:users)
 
 get "/" do
-    puts trips_table.all
-    @trips = trips_table.all.to_a
-    view "trips"
+    puts destinations_table.all
+    @destinations = destinations_table.all.to_a
+    view "destinations"
 end
 
-get "/trips/:id" do
-    @trip = trips_table.where(id: params[:id]).to_a[0]
-    @comments = comments_table.where(trip_id: @trip[:id])
-    @like_count = comments_table.where(trip_id: @trip[:id], like: true).count
+get "/destinations/:id" do
+    @destination = destinations_table.where(id: params[:id]).to_a[0]
+    @comments = comments_table.where(destination_id: @destination[:id])
+    @like_count = comments_table.where(destination_id: @destination[:id], like: true).count
     @users_table = users_table
-    view "trip"
+    view "destination"
 end
 
 get "/users/new" do

@@ -5,15 +5,18 @@ DB = Sequel.connect(connection_string)                                          
 #######################################################################################
 
 # Database schema - this should reflect your domain model
-DB.create_table! :trips do
+DB.create_table! :destinations do
   primary_key :id
   String :title
+  String :country
+  String :region
+  String :best_dates_to_go
   String :description, text: true
   String :location
 end
 DB.create_table! :comments do
   primary_key :id
-  foreign_key :trip_id
+  foreign_key :destination_id
   Boolean :like
   String :name
   String :email
@@ -27,12 +30,18 @@ DB.create_table! :users do
 end
 
 # Insert initial (seed) data
-trips_table = DB.from(:trips)
+destinations_table = DB.from(:destinations)
 
-trips_table.insert(title: "New Mexico Trip", 
-                    description: "XXXX",
-                    location: "New Mexico")
+destinations_table.insert(title: "Northern New Mexico - Small wild trouts", 
+                    country: "USA",
+                    region: "New Mexico",
+                    best_dates_to_go: "September - December. Anyway, you can go fly fishing year-round to this destination",
+                    description: "Here",
+                    location: "Northern New Mexico")
 
-trips_table.insert(title: "Fly fhishing in Chilean Patagonia - Baker River", 
-                    description: "YYYY",
-                    location: "Rio Baker, Aysen, Chile")
+destinations_table.insert(title: "Chilean Patagonia - Baker River", 
+                    country: "Chile",
+                    region: "Aysen",
+                    best_dates_to_go: "Fall: February - April",
+                    description: "Chilean most powerful river is surounded by beautiful landscapes. Here you will find the challenging Rainbow Trout and the desired Chinook Salmon",
+                    location: "Baker River")

@@ -1,0 +1,17 @@
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Fly Fishing Destinations</h1 class="display-4">
+    <p class="lead">Get to know the best Fly Fishing destinations around the world and comment about them</p>
+    <hr class="my-3">
+    <a class="btn btn-info btn-lg" href="XXX" role="button">Sign Up</a>
+    <a class="btn btn-info btn-lg" href="YYY" role="button">Sign In</a>
+  </div>
+</div>
+
+<h1>All Destinations</h1>
+
+
+
+<% for destination in @destinations %>
+    <p><a href="/destinations/<%= destination[:id] %>"><%= destination[:title] %></a></p>
+<% end %>

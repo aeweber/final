@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-sm-9">
-        <h1><%= @trip[:title] %></h1>
-        <p><%= @trip[:description] %></p>
+        <h1><%= @destination[:title] %></h1>
+        <p><%= @destination[:description] %></p>
         <% for comment in @comments %>
             <div class="media">
                 <% if comment[:like] %>
@@ -17,7 +17,7 @@
         <% end %>
         <p class="mt-5">
             <% if @current_user %>
-                <a href="/trips/<%= @trip[:id] %>/comments/new" class="btn btn-primary">Comment know!</a>
+                <a href="/destinations/<%= @destination[:id] %>/comments/new" class="btn btn-primary">Comment know!</a>
             <% else %>
                 <a href="/logins/new" class="btn btn-danger">Please sign in to comment</a>
             <% end %>
@@ -25,8 +25,8 @@
     </div>
     <div class="col-sm-3">
         <h3>Where?</h3>
-        <p><%= @trip[:location] %></p>
-        <h3>How many peope like this trip?</h3>
+        <p><%= @destination[:location] %></p>
+        <h3>How many peope like this destination?</h3>
         <p><%= @like_count %></p>
     </div>
 </div>
