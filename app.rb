@@ -3,6 +3,7 @@ require "sinatra"
 require "sinatra/cookies"                                                             #
 require "sinatra/reloader" if development?                                            #
 require "sequel"                                                                      #
+require "geocoder"                                                                    #
 require "logger"                                                                      #
 require "bcrypt"                                                                      #
 require "twilio-ruby"                                                                 #
@@ -53,6 +54,13 @@ get "/destinations/:id" do
 
     @comments = comments_table.where(destination_id: @destination[:id]).to_a
     @like_count = comments_table.where(destination_id: @destination[:id], like: true).count
+
+    @location = params["location"]
+    results = Geocoder.search(params["location"])
+    lat_lng = results.first.coordinates
+    @lat = lat_lng[0]
+    @lng = lat_lng[1]
+    @lat_lng = "#{@lat},#{@lng}"
 
     view "destination"
 end
