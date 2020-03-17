@@ -17,10 +17,9 @@ end
 DB.create_table! :comments do
   primary_key :id
   foreign_key :destination_id
+  foreign_key :user_id
   Boolean :like
-  String :name
-  String :email
-  String :detail, text: true
+  String :details, text: true
 end
 DB.create_table! :users do
   primary_key :id
@@ -35,13 +34,15 @@ destinations_table = DB.from(:destinations)
 destinations_table.insert(title: "Northern New Mexico - Small wild trouts", 
                     country: "USA",
                     region: "New Mexico",
-                    best_dates_to_go: "September - December. Anyway, you can go fly fishing year-round to this destination",
-                    description: "Here",
+                    best_dates_to_go: "September - December. Anyway, you can go fly fishing year-round to this destination.",
+                    description: "Here there are high mesas of sage and juniper, deep rocky canyons, mountains with forests of pines and aspens and alpine meadows. These different extremes of altitude and types of landscape offer anglers the opportunity to fish on many types of water, all within close proximity of each other.",
                     location: "Northern New Mexico")
 
 destinations_table.insert(title: "Chilean Patagonia - Baker River", 
                     country: "Chile",
                     region: "Aysen",
                     best_dates_to_go: "Fall: February - April",
-                    description: "Chilean most powerful river is surounded by beautiful landscapes. Here you will find the challenging Rainbow Trout and the desired Chinook Salmon",
+                    description: "Chilean most powerful river is surounded by beautiful landscapes. Here you will find the challenging Rainbow Trout and the desired Chinook Salmon.",
                     location: "Baker River")
+
+puts "Good! Now you can run the app"

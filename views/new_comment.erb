@@ -1,0 +1,20 @@
+<h1>Comment for <%= @destination[:title] %></h1>
+<p>Country: <%= @destination[:country] %>
+<br>Region: <%= @destination[:region] %>
+</p>
+
+<form action="/destinations/<%= @destination[:id] %>/comments/create" method="post">
+  <div class="form-group">
+    <label>Do you like this destination?</label>
+    <select class="form-control" name="like">
+      <option value="1">Yes</option>
+      <option value="0">No</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Comment</label>
+    <textarea class="form-control" rows="3" name="details"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Tell the others</button>
+</form>

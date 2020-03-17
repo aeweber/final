@@ -1,7 +1,16 @@
 <div class="row">
     <div class="col-sm-9">
-        <h1><%= @destination[:title] %></h1>
-        <p><%= @destination[:description] %></p>
+        <div>
+            <h1><%= @destination[:title] %></h1>
+            <p>Country: <%= @destination[:country] %></p>
+            <p>Region: <%= @destination[:region] %></p>
+            <p>Description: <%= @destination[:description] %></p>
+        </div>
+        <div>
+            <h3><i class="far fa-calendar-alt"></i> Best dates to go</h3>
+            <p><%= @destination[:best_dates_to_go] %></p>
+        </div>
+        <div>
         <% for comment in @comments %>
             <div class="media">
                 <% if comment[:like] %>
@@ -10,21 +19,32 @@
                     <i class="fas fa-thumbs-down fa-3x mr-3"></i>
                 <% end %>
                 <div class="media-body">
-                    <h5 class="mt-0"><%= @users_table.where(id: comment[:user_id]).to_a[0][:name] %></h5>
+                    <h5 class="mt-0">
+                    <%= @users_table.where(id: comment[:user_id]).to_a[0][:name] %></h5>
+
+                     <small>
+                            <!-- only show these links if it's my comment -->
+                            <% if @current_user && @current_user[:id] == comment[:user_id] %>
+                                (<a href="/comments/<%= comment[:id] %>/edit">edit</a> | <a href="/comments/<%= comment[:id] %>/destroy">delete</a>)
+                            <% end %>
+                        </small>
+                    </h5>
                     <%= comment[:comments] %>
                 </div>
             </div>
         <% end %>
         <p class="mt-5">
             <% if @current_user %>
-                <a href="/destinations/<%= @destination[:id] %>/comments/new" class="btn btn-primary">Comment know!</a>
+                <a href="/destinations/<%= @destination[:id] %>/comments/new" class="btn btn-primary">Comment now!</a>
             <% else %>
                 <a href="/logins/new" class="btn btn-danger">Please sign in to comment</a>
             <% end %>
         </p>
+        </div>
     </div>
     <div class="col-sm-3">
-        <h3>Where?</h3>
+        <h3>Where?</h3> 
+        <!-- Aca poner el mapa de google o una foto -->
         <p><%= @destination[:location] %></p>
         <h3>How many peope like this destination?</h3>
         <p><%= @like_count %></p>
