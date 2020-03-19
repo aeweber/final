@@ -24,11 +24,21 @@ after { puts; }                                                                 
 # 7. Crear pagina (a) create_login, (b) create_comment, (d) destroy_comment, (e) logout, (f) update_comment
 # I got a fever - https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSpbdW8OHsXALx9oPDfYQVV3z_5deuXa9ngyIeSpRFnlCScmbdO
 
+# Twilio external service
+# put your API credentials here (found on your Twilio dashboard)
+account_sid = ENV["TWILIO_ACCOUNT_SID"]
+auth_token = ENV["TWILIO_AUTH_TOKEN"]
 
+# set up a client to talk to the Twilio REST API
+client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"])
+
+
+# Tables in Domain Model
 destinations_table = DB.from(:destinations)
 comments_table = DB.from(:comments)
 users_table = DB.from(:users)
 
+# Code for app
 before do
     @current_user = users_table.where(id: session["user_id"]).to_a[0]
 end
@@ -55,12 +65,13 @@ get "/destinations/:id" do
     @comments = comments_table.where(destination_id: @destination[:id]).to_a
     @like_count = comments_table.where(destination_id: @destination[:id], like: true).count
 
-    @location = params["location"]
-    results = Geocoder.search(params["location"])
-    lat_lng = results.first.coordinates
-    @lat = lat_lng[0]
-    @lng = lat_lng[1]
-    @lat_lng = "#{@lat},#{@lng}"
+    # # Creo variable location aca o en hoja "destination", en hoja "destination" podria ya estar asociado al destino de la pagina
+    # @location = destinations_table.where(id: params[:id], location: params["location"])
+    # @results = Geocoder.search(params["location"])
+    # @lat_lng = @results.first.coordinates
+    # @lat = @lat_lng[0]
+    # @lng = @lat_lng[1]
+    # @lat_lng = "#{@lat},#{@lng}"
 
     view "destination"
 end
@@ -85,6 +96,13 @@ post "/destinations/:id/comments/create" do
         user_id: session["user_id"],
         details: params["details"],
         like: params["like"]
+    )
+
+    # send the SMS from your trial Twilio number to your verified non-Twilio number
+    client.messages.create(
+        from: "+12057494753", 
+        to: "+18472621212",
+        body: "Thank you for commenting in Fly Fishing Destinations"
     )
 
     redirect "/destinations/#{@destination[:id]}"
