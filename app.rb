@@ -65,13 +65,11 @@ get "/destinations/:id" do
     @comments = comments_table.where(destination_id: @destination[:id]).to_a
     @like_count = comments_table.where(destination_id: @destination[:id], like: true).count
 
-    # # Creo variable location aca o en hoja "destination", en hoja "destination" podria ya estar asociado al destino de la pagina
-    # @location = destinations_table.where(id: params[:id], location: params["location"])
-    # @results = Geocoder.search(params["location"])
-    # @lat_lng = @results.first.coordinates
-    # @lat = @lat_lng[0]
-    # @lng = @lat_lng[1]
-    # @lat_lng = "#{@lat},#{@lng}"
+    results = Geocoder.search(@destination[:location])
+    @lat_lng = results.first.coordinates
+    @lat = @lat_lng[0]
+    @lng = @lat_lng[1]
+    @lat_long = "#{@lat},#{@lng}"
 
     view "destination"
 end
