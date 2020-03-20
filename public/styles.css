@@ -1,0 +1,20 @@
+h1 {
+    font-size: 60px;
+}
+
+.jumbotron {
+    /* Background */
+    background-image: url(jumbotron2.jpg);
+    background-repeat: no-repeat;  
+    background-size: cover;
+    height: 100%;
+      /* Fonts */
+    /* The text-shadow helps the white text stand out better on a darker background */
+    color: white;
+    text-shadow: 1px 1px 1px black;
+}
+
+/* .jumbotron .container {
+  position:relative;
+  top:50px;
+} */
