@@ -16,12 +16,9 @@ before { puts; puts "--------------- NEW REQUEST ---------------"; puts }       
 after { puts; }                                                                       #
 #######################################################################################
 
-# Temas a considerar:
-# 2. Cada vez que un usuario haga log in, el homepage debe cambiar - Sacarle Jumbotron # Cambiar redirect "/" en /logins/create 
+ 
 # 3. le puedo subir fotos a las database? - https://www.ruby-forum.com/t/how-to-insert-an-image-into-database-and-how-to-display-it/179186/3
-# 4. Pagina "/destinations/id" poner numero de likes y dislikes
 # 5. Se le podria poner otro formato a "country" y " region" en hoja "destination"
-# 7. Crear pagina (a) create_login, (b) create_comment, (d) destroy_comment, (e) logout, (f) update_comment
 # I got a fever - https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSpbdW8OHsXALx9oPDfYQVV3z_5deuXa9ngyIeSpRFnlCScmbdO
 
 # Twilio external service
@@ -53,6 +50,16 @@ get "/" do
     view "destinations"
 end
 
+# homepage when a user is logged in and list of destinations
+get "/destinations2" do
+    puts "params: #{params}"
+
+    @destinations = destinations_table.all.to_a
+    pp @destinations
+
+    view "destinations2"
+end
+
 # destination details 
 get "/destinations/:id" do
 
@@ -64,6 +71,7 @@ get "/destinations/:id" do
 
     @comments = comments_table.where(destination_id: @destination[:id]).to_a
     @like_count = comments_table.where(destination_id: @destination[:id], like: true).count
+    @dislike_count = comments_table.where(destination_id: @destination[:id], like: false).count
 
     results = Geocoder.search(@destination[:location])
     @lat_lng = results.first.coordinates
@@ -193,7 +201,7 @@ post "/logins/create" do
         if BCrypt::Password.new(@user[:password]) == params["password"]
             # set encrypted cookie for logged in user
             session["user_id"] = @user[:id]
-            redirect "/"
+            redirect "destinations2"
         else
             view "create_login_failed"
         end
